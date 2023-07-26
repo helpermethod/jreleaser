@@ -54,6 +54,8 @@ public interface Announce extends Domain, Activatable {
 
     OpenCollectiveAnnouncer getOpenCollective();
 
+    RedditAnnouncer getReddit();
+
     SdkmanAnnouncer getSdkman();
 
     SlackAnnouncer getSlack();

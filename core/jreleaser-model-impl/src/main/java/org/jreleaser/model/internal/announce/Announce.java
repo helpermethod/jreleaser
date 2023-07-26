@@ -38,7 +38,7 @@ import static org.jreleaser.util.StringUtils.isBlank;
  * @since 0.1.0
  */
 public final class Announce extends AbstractActivatable<Announce> implements Domain {
-    private static final long serialVersionUID = 8244852443096292765L;
+    private static final long serialVersionUID = -182585829252903017L;
 
     private final ArticleAnnouncer article = new ArticleAnnouncer();
     private final BlueskyAnnouncer bluesky = new BlueskyAnnouncer();
@@ -52,6 +52,7 @@ public final class Announce extends AbstractActivatable<Announce> implements Dom
     private final MastodonAnnouncer mastodon = new MastodonAnnouncer();
     private final MattermostAnnouncer mattermost = new MattermostAnnouncer();
     private final OpenCollectiveAnnouncer openCollective = new OpenCollectiveAnnouncer();
+    private final RedditAnnouncer reddit = new RedditAnnouncer();
     private final SdkmanAnnouncer sdkman = new SdkmanAnnouncer();
     private final SlackAnnouncer slack = new SlackAnnouncer();
     private final TeamsAnnouncer teams = new TeamsAnnouncer();
@@ -133,6 +134,11 @@ public final class Announce extends AbstractActivatable<Announce> implements Dom
         }
 
         @Override
+        public org.jreleaser.model.api.announce.RedditAnnouncer getReddit() {
+            return reddit.asImmutable();
+        }
+
+        @Override
         public org.jreleaser.model.api.announce.SdkmanAnnouncer getSdkman() {
             return sdkman.asImmutable();
         }
@@ -211,6 +217,7 @@ public final class Announce extends AbstractActivatable<Announce> implements Dom
         setMastodon(source.mastodon);
         setMattermost(source.mattermost);
         setOpenCollective(source.openCollective);
+        setReddit(source.reddit);
         setSdkman(source.sdkman);
         setSlack(source.slack);
         setTeams(source.teams);
@@ -343,6 +350,14 @@ public final class Announce extends AbstractActivatable<Announce> implements Dom
         this.openCollective.merge(openCollective);
     }
 
+    public RedditAnnouncer getReddit() {
+        return reddit;
+    }
+
+    public void setReddit(RedditAnnouncer reddit) {
+        this.reddit.merge(reddit);
+    }
+
     public SdkmanAnnouncer getSdkman() {
         return sdkman;
     }
@@ -452,6 +467,7 @@ public final class Announce extends AbstractActivatable<Announce> implements Dom
         map.putAll(mastodon.asMap(full));
         map.putAll(mattermost.asMap(full));
         map.putAll(openCollective.asMap(full));
+        map.putAll(reddit.asMap(full));
         map.putAll(sdkman.asMap(full));
         map.putAll(slack.asMap(full));
         map.putAll(teams.asMap(full));
@@ -499,6 +515,8 @@ public final class Announce extends AbstractActivatable<Announce> implements Dom
                 return (A) getMattermost();
             case org.jreleaser.model.api.announce.OpenCollectiveAnnouncer.TYPE:
                 return (A) getOpenCollective();
+            case org.jreleaser.model.api.announce.RedditAnnouncer.TYPE:
+                return (A) getReddit();
             case org.jreleaser.model.api.announce.SdkmanAnnouncer.TYPE:
                 return (A) getSdkman();
             case org.jreleaser.model.api.announce.SlackAnnouncer.TYPE:
